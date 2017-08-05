@@ -1,0 +1,82 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.kachanov</groupId>
+	<artifactId>simpleclient</artifactId>
+	<version>2.0</version>
+
+	<properties>
+		<jdk.version>1.7</jdk.version>
+		<project.build.sorceEncoding>UTF-8</project.build.sorceEncoding>
+		<mave.build.timestamp.format>yyyyMMdd_HHmm</mave.build.timestamp.format>
+	</properties>
+
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>1.8.9</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.quickfixj</groupId>
+			<artifactId>quickfixj-core</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.quickfixj</groupId>
+			<artifactId>quickfixj-examples-banzai</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<defaultGoal>build</defaultGoal>
+		<pluginManagement>
+			<plugins>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.1</version>
+					<configuration>
+						<source>${jdk.version}</source>
+						<target>${jdk.version}</target>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>2.6</version>
+					<configuration>
+						<encoding>UTF-8</encoding>
+					</configuration>
+				</plugin>
+
+				<plugin>
+					<artifactId>maven-assembly-plugin</artifactId>
+					<version>2.4</version>
+					<configuration>
+						<finalName>${project.artifactId}_${project.version}_${maven.build.timestamp}</finalName>
+						<appendAssemblyId>false</appendAssemblyId>
+						<descriptor>assembly/dep.xml</descriptor>
+					</configuration>
+				</plugin>
+
+			</plugins>
+		</pluginManagement>
+	</build>
+</project>
