@@ -1,1 +1,1 @@
-java -showversion -Xms1800m -Xmx1800m -XX:MaxPermSize=2g -Dlog4j.configurationFile=libs/log4j2.properties -jar libs/simplefixclient-2.0.jar simplefixclient.cfg
+%JAVA_HOME%\bin\java -showversion -Xms1800m -Xmx1800m -XX:MaxPermSize=2g -Dlog4j.configurationFile=libs/log4j2.properties -jar libs/simplefixclient-2.0.jar simplefixclient.cfg
