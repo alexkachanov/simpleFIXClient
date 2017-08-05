@@ -1,4 +1,4 @@
-package com.kachanov.simpleclient;
+package com.kachanov.simplefixclient;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,7 +16,7 @@ import javax.script.SimpleBindings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.kachanov.simpleclient.model.MessageF;
+import com.kachanov.simplefixclient.model.MessageF;
 
 import quickfix.ConfigError;
 import quickfix.DefaultMessageFactory;
@@ -37,9 +37,9 @@ import quickfix.examples.banzai.BanzaiApplication;
 import quickfix.examples.banzai.ExecutionTableModel;
 import quickfix.examples.banzai.OrderTableModel;
 
-public class SimpleClient extends BanzaiApplication {
+public class SimpleFixClient extends BanzaiApplication {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger( SimpleClient.class );
+	private static final Logger LOGGER = LoggerFactory.getLogger( SimpleFixClient.class );
 
 	private static Session _session = null;
 	private static Connection _connection = null;
@@ -49,7 +49,7 @@ public class SimpleClient extends BanzaiApplication {
 	public static void main( String[] args ) throws InterruptedException, IOException {
 		LOGGER.info( "Starting up..." );
 
-		SimpleClient app = new SimpleClient( new OrderTableModel(), new ExecutionTableModel() );
+		SimpleFixClient app = new SimpleFixClient( new OrderTableModel(), new ExecutionTableModel() );
 		SessionSettings sessionSettings = null;
 		SocketInitiator initiator = null;
 		try {
@@ -120,7 +120,7 @@ public class SimpleClient extends BanzaiApplication {
 		}
 	}
 
-	public SimpleClient( OrderTableModel orderTableModel, ExecutionTableModel executionTableModel ) {
+	public SimpleFixClient( OrderTableModel orderTableModel, ExecutionTableModel executionTableModel ) {
 		super( orderTableModel, executionTableModel );
 	}
 	

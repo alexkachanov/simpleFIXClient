@@ -1,12 +1,12 @@
-package com.kachanov.simpleclient;
+package com.kachanov.simplefixclient;
 
-import static com.kachanov.simpleclient.model.MessageF.ack;
-import static com.kachanov.simpleclient.model.MessageF.amend;
-import static com.kachanov.simpleclient.model.MessageF.amended;
-import static com.kachanov.simpleclient.model.MessageF.fill;
-import static com.kachanov.simpleclient.model.MessageF.nos;
-import static com.kachanov.simpleclient.model.MessageF.pfill;
-import static com.kachanov.simpleclient.model.MessageF.rejected;
+import static com.kachanov.simplefixclient.model.MessageF.ack;
+import static com.kachanov.simplefixclient.model.MessageF.amend;
+import static com.kachanov.simplefixclient.model.MessageF.amended;
+import static com.kachanov.simplefixclient.model.MessageF.fill;
+import static com.kachanov.simplefixclient.model.MessageF.nos;
+import static com.kachanov.simplefixclient.model.MessageF.pfill;
+import static com.kachanov.simplefixclient.model.MessageF.rejected;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -19,10 +19,10 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.kachanov.simpleclient.model.MessageF;
-import com.kachanov.simpleclient.model.OrdTypeF;
-import com.kachanov.simpleclient.model.SideF;
-import com.kachanov.simpleclient.model.TimeInForceF;
+import com.kachanov.simplefixclient.model.MessageF;
+import com.kachanov.simplefixclient.model.OrdTypeF;
+import com.kachanov.simplefixclient.model.SideF;
+import com.kachanov.simplefixclient.model.TimeInForceF;
 
 import quickfix.CharField;
 import quickfix.FieldNotFound;

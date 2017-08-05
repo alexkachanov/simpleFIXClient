@@ -1,4 +1,4 @@
-package com.kachanov.simpleclient.model;
+package com.kachanov.simplefixclient.model;
 
 import static quickfix.field.MsgType.EXECUTION_REPORT;
 import static quickfix.field.MsgType.ORDER_CANCEL_REPLACE_REQUEST;

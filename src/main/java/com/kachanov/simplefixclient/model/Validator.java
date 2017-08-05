@@ -1,4 +1,4 @@
-package com.kachanov.simpleclient.model;
+package com.kachanov.simplefixclient.model;
 
 import java.util.Map;
 

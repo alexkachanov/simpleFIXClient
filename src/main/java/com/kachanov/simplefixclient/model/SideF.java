@@ -1,4 +1,4 @@
-package com.kachanov.simpleclient.model;
+package com.kachanov.simplefixclient.model;
 
 import static quickfix.field.Side.BUY;
 import static quickfix.field.Side.SELL;
