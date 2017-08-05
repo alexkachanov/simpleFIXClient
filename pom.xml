@@ -6,7 +6,7 @@
 	<version>2.0</version>
 
 	<properties>
-		<jdk.version>1.7</jdk.version>
+		<jdk.version>1.8</jdk.version>
 		<project.build.sorceEncoding>UTF-8</project.build.sorceEncoding>
 		<mave.build.timestamp.format>yyyyMMdd_HHmm</mave.build.timestamp.format>
 	</properties>
