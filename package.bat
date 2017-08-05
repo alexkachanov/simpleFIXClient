@@ -1,1 +1,1 @@
-mvn clean assembly:assembly
+mvn clean package

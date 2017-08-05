@@ -1,18 +1,22 @@
-<assembly 
-	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
-	<id>bin</id>
+<assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+	<id>release</id>
+	
 	<formats>
 		<format>zip</format>
 	</formats>
+	
 	<includeBaseDirectory>false</includeBaseDirectory>
 
 	<fileSets>
 		<fileSet>
 			<directory>${project.basedir}</directory>
-			<outputDirectory>/</outputDirectory>
+			<outputDirectory>.</outputDirectory>
 			<includes>
+				<include>README*</include>
+				<include>LICENSE*</include>
+				<include>NOTICE*</include>
 				<include>start.bat</include>
 				<include>start.sh</include>
 				<include>simpleclient.cfg</include>
@@ -21,8 +25,16 @@
 		</fileSet>
 		
 		<fileSet>
+			<directory>${project.build.directory}/classes</directory>
+			<outputDirectory>libs</outputDirectory>
+			<includes>
+				<include>log4j2.properties</include>
+			</includes>
+		</fileSet>
+		
+		<fileSet>
 			<directory>${project.build.directory}</directory>
-			<outputDirectory>logs/</outputDirectory>
+			<outputDirectory>logs</outputDirectory>
 			<excludes>
 				<exclude>**/*</exclude>
 			</excludes>
@@ -32,7 +44,7 @@
 	<dependencySets>
 		<dependencySet>
 			<scope>runtime</scope>
-			<outputDirectory>libs/</outputDirectory>
+			<outputDirectory>libs</outputDirectory>
 		</dependencySet>
 	</dependencySets>
 
