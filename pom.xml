@@ -79,7 +79,7 @@
 					</excludes>
 					<archive>
 						<manifest>
-							<mainClass>com.kachanov.app.Main</mainClass>
+							<mainClass>com.kachanov.simplefixclient.SimpleFixClient</mainClass>
 							<addClasspath>true</addClasspath>
 						</manifest>
 					</archive>
