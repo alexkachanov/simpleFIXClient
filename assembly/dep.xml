@@ -19,7 +19,7 @@
 				<include>NOTICE*</include>
 				<include>start.bat</include>
 				<include>start.sh</include>
-				<include>simpleclient.cfg</include>
+				<include>simplefixclient.cfg</include>
 				<include>scenarios/</include>
 			</includes>
 		</fileSet>
@@ -39,6 +39,15 @@
 				<exclude>**/*</exclude>
 			</excludes>
 		</fileSet>
+		
+		<fileSet>
+			<directory>${project.build.directory}</directory>
+			<outputDirectory>data</outputDirectory>
+			<excludes>
+				<exclude>**/*</exclude>
+			</excludes>
+		</fileSet>
+		
 	</fileSets>
 
 	<dependencySets>

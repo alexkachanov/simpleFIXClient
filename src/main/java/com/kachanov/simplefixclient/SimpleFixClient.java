@@ -48,12 +48,14 @@ public class SimpleFixClient extends BanzaiApplication {
 
 	public static void main( String[] args ) throws InterruptedException, IOException {
 		LOGGER.info( "Starting up..." );
+		
+		String fixConfigFile = validate(args);
 
 		SimpleFixClient app = new SimpleFixClient( new OrderTableModel(), new ExecutionTableModel() );
 		SessionSettings sessionSettings = null;
 		SocketInitiator initiator = null;
 		try {
-			sessionSettings = new SessionSettings( new FileInputStream( "simpleclient.cfg" ) );
+			sessionSettings = new SessionSettings( new FileInputStream( fixConfigFile ) );
 
 			MessageStoreFactory storeFactory = new FileStoreFactory( sessionSettings );
 			FileLogFactory logFactory = new FileLogFactory( sessionSettings );
@@ -118,6 +120,16 @@ public class SimpleFixClient extends BanzaiApplication {
 			if (initiator != null)
 				initiator.stop();
 		}
+	}
+
+	private static String validate( String[] args ) {
+		String rv = "simplefixclient.cfg";
+		if (args.length > 1) {
+			throw new IllegalArgumentException( "only 1 parameter is allowed: name of fix config file" );
+		} else {
+			if (args.length != 0) rv = args[0].trim();
+		}
+		return rv;
 	}
 
 	public SimpleFixClient( OrderTableModel orderTableModel, ExecutionTableModel executionTableModel ) {
