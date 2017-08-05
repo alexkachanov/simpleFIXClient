@@ -3,6 +3,8 @@ package com.kachanov.simplefixclient;
 import static com.kachanov.simplefixclient.model.MessageF.ack;
 import static com.kachanov.simplefixclient.model.MessageF.amend;
 import static com.kachanov.simplefixclient.model.MessageF.amended;
+import static com.kachanov.simplefixclient.model.MessageF.cancel;
+import static com.kachanov.simplefixclient.model.MessageF.canceled;
 import static com.kachanov.simplefixclient.model.MessageF.fill;
 import static com.kachanov.simplefixclient.model.MessageF.nos;
 import static com.kachanov.simplefixclient.model.MessageF.pfill;
@@ -19,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.kachanov.simplefixclient.model.CustomF;
 import com.kachanov.simplefixclient.model.MessageF;
 import com.kachanov.simplefixclient.model.OrdTypeF;
 import com.kachanov.simplefixclient.model.SideF;
@@ -46,24 +49,25 @@ import quickfix.field.TransactTime;
 public class Connection {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger( Connection.class );
-	
+
 	private static final String tag11 = "tag11";
 	private static final String tag41 = "tag41";
-	
-	private quickfix.Session _session;
+
 	private Map _context = new HashMap();
+	private Map<String, LinkedBlockingQueue<Message>> _responses = new HashMap<String, LinkedBlockingQueue<Message>>();
+	private quickfix.Session _session;
 	
 
 	public Connection( quickfix.Session session ) {
 		this._session = session;
 	}
 	
-	private Map<String, LinkedBlockingQueue<Message>> _responses = new HashMap<String,LinkedBlockingQueue<Message>>();
+	
 	
 	public void addResponse( Message message ) throws FieldNotFound {
 		String clorderid = message.getString( ClOrdID.FIELD );
-		LinkedBlockingQueue<Message> queue = _responses.get(clorderid);
-		if (queue ==null) {
+		LinkedBlockingQueue<Message> queue = _responses.get( clorderid );
+		if (queue == null) {
 			queue = new LinkedBlockingQueue<Message>();
 			_responses.put( clorderid, queue );
 		}
@@ -83,34 +87,34 @@ public class Connection {
 	}
 	
 	void expect( Map<?, ?> m, MessageF expectedMessage ) throws Exception {
-		LOGGER.info( "\nreceiving " + expectedMessage);
-		
-		String clorderid = (String) m.get( "tag11" );
-		if (clorderid==null) clorderid = (String) _context.get( "tag11" );
-		
-		Message arrivedMessage = _responses.get( clorderid ).poll( 10, TimeUnit.SECONDS );
-		System.out.println( arrivedMessage.toString().replaceAll( "", "; " ) );
-		
+		LOGGER.info( "\nreceiving " + expectedMessage );
+
+		String clorderid = (String) m.get( tag11 );
+		if (clorderid == null) clorderid = (String) _context.get( tag11 );
+
+		Message arrivedMessage = _responses.get( clorderid ).poll( 20, TimeUnit.SECONDS );
+		LOGGER.info( arrivedMessage.toString().replaceAll( "", "; " ) );
+
 		char ordStatus = arrivedMessage.getChar( OrdStatus.FIELD );
-		
+
 		boolean rv = false;
-		if (arrivedMessage.getHeader().getString( 35 ).equals(MsgType.EXECUTION_REPORT)) throw new Exception();
-		
-		for ( MessageF element : Arrays.asList( ack, pfill, fill, amended, rejected ) ) {
+		if (arrivedMessage.getHeader().getString( MsgType.FIELD ).equals( MsgType.EXECUTION_REPORT )) throw new Exception();
+
+		for ( MessageF element : Arrays.asList( ack, fill, pfill, amended, canceled, rejected ) ) {
 			if (ordStatus == element.getOrdStatus() && expectedMessage == element) {
 				rv = expectedMessage.validate( m, arrivedMessage );
 			}
 		}
-		
+
 		if (!rv) throw new Exception( "message " + expectedMessage + " is not valid" );
 	}
 	
 	void send( MessageF messageType ) throws SessionNotFound {
-		send(Collections.EMPTY_MAP, messageType);
+		send( Collections.EMPTY_MAP, messageType );
 	}
 
 	void send( Map<?, ?> m, MessageF messageType ) throws SessionNotFound {
-		System.out.println( "\nsending " + messageType +
+		LOGGER.info( "\nsending " + messageType +
 				": symbol: "+m.get( "symbol" )+
 				": secType: "+m.get( "secType" )+
 				"; side: "+m.get( "side" )+
@@ -129,12 +133,15 @@ public class Connection {
 		if (messageType != nos) {
 			message.setField( new StringField( OrigClOrdID.FIELD, String.valueOf( _context.get( tag41 ) ) ) );
 		}
-		String clorderid = String.valueOf( System.nanoTime() );
-		message.setField( new StringField( ClOrdID.FIELD, clorderid ) );
-		if (messageType == nos || messageType == amend) {
-			_context.put( tag41, clorderid );
-		}
 		
+		String clorderid = (String) m.get( tag11 );
+		if (clorderid == null) clorderid = String.valueOf( System.nanoTime() );
+		message.setField( new StringField( ClOrdID.FIELD, clorderid ) );
+		if (messageType == nos || messageType == amend || messageType == cancel) {
+			_context.put( tag11, clorderid );
+			_context.put( tag41, clorderid );
+			_responses.put( clorderid, new LinkedBlockingQueue<Message>() );
+		}
 		
 		message.setField( new CharField( OrdTypeF.getField(), 	OrdTypeF.valueOf( String.valueOf( _context.get( "ordType" ) ) ).getValue() ));
 		message.setField( new CharField( TimeInForceF.getField(), TimeInForceF.valueOf( String.valueOf( _context.get( "tif" ) ) ).getValue() ) );
@@ -148,13 +155,19 @@ public class Connection {
 		message.setField( new StringField( ExDestination.FIELD, String.valueOf( _context.get( "exDest" ) ) ));
 		message.setField( new StringField( OrderCapacity.FIELD, String.valueOf( _context.get( "ordCapacity" ) ) ));
 		message.setField( new StringField( Account.FIELD, String.valueOf( _context.get( "account" ) ) ));
-		message.setField( new TransactTime(new Date()));
 		
-		
-		
-		System.out.println( message.toString().replaceAll( "", "; " ) );
+		// ...... exchange specific and custom tags
+		for ( CustomF element : CustomF.values() ) {
+			if (_context.get( element.name() ) != null) {
+				message.setField( new StringField( element.getValue(), String.valueOf( _context.get( element.name() ) ) ) );
+			}
+		}
+
+		message.setField( new TransactTime( new Date() ) );
+
+		LOGGER.info( message.toString().replaceAll( "", "; " ) );
 		Session.sendToTarget( message, _session.getSessionID() );
-		
+
 	}
 
 }

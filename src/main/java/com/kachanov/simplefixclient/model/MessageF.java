@@ -25,14 +25,16 @@ import quickfix.field.Text;
 
 public enum MessageF implements Validator {
 
-	nos(ORDER_SINGLE), amend(ORDER_CANCEL_REPLACE_REQUEST), cancel(ORDER_CANCEL_REQUEST),
+	  nos(ORDER_SINGLE)
+	, amend(ORDER_CANCEL_REPLACE_REQUEST)
+	, cancel(ORDER_CANCEL_REQUEST)
 
-		ack(EXECUTION_REPORT, NEW)
-	, 	amended(EXECUTION_REPORT, REPLACED)
-	, 	canceled(EXECUTION_REPORT, CANCELED)
-	, 	rejected(EXECUTION_REPORT, REJECTED)
-	, 	pfill(EXECUTION_REPORT, PARTIALLY_FILLED)
-	, 	fill(EXECUTION_REPORT, FILLED)
+	, ack(EXECUTION_REPORT, NEW)
+	, amended(EXECUTION_REPORT, REPLACED)
+	, canceled(EXECUTION_REPORT, CANCELED)
+	, rejected(EXECUTION_REPORT, REJECTED)
+	, pfill(EXECUTION_REPORT, PARTIALLY_FILLED)
+	, fill(EXECUTION_REPORT, FILLED)
 	;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger( MessageF.class );

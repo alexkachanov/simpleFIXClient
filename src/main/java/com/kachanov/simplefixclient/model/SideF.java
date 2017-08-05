@@ -8,7 +8,9 @@ import quickfix.Message;
 import quickfix.field.Side;
 
 public enum SideF {
-	Buy(BUY), Sell(SELL);
+	  Buy(BUY)
+	, Sell(SELL)
+	;
 
 	private char _value;
 

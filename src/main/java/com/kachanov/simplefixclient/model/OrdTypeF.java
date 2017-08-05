@@ -8,7 +8,10 @@ import quickfix.Message;
 import quickfix.field.OrdType;
 
 public enum OrdTypeF {
-	Limit(LIMIT), Market(MARKET);
+	  Limit(LIMIT)
+	, Market(MARKET)
+	;
+	
 	private char _value;
 
 	OrdTypeF( char value ) {
