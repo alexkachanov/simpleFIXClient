@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 
 import javax.script.Bindings;
 import javax.script.ScriptContext;
@@ -38,23 +41,29 @@ import quickfix.examples.banzai.ExecutionTableModel;
 import quickfix.examples.banzai.OrderTableModel;
 
 public class SimpleFixClient extends BanzaiApplication {
-	
 	private static final Logger LOGGER = LoggerFactory.getLogger( SimpleFixClient.class );
+	
+	private static final String DEFINITIONS_FILE = "definitions.dsl";
+	private static final String GROOVY_ENGINE_NAME = "groovy";
 
 	private static Session _session = null;
 	private static Connection _connection = null;
+	private static ScriptEngine _groovyEngine = null;
 	
 	
 
 	public static void main( String[] args ) throws InterruptedException, IOException {
 		LOGGER.info( "Starting up..." );
 		
-		String fixConfigFile = validate(args);
+		String fixConfigFile = validate( args );
 
 		SimpleFixClient app = new SimpleFixClient( new OrderTableModel(), new ExecutionTableModel() );
 		SessionSettings sessionSettings = null;
 		SocketInitiator initiator = null;
 		try {
+			ScriptEngineManager factory = new ScriptEngineManager();
+			_groovyEngine = factory.getEngineByName( GROOVY_ENGINE_NAME );
+			
 			sessionSettings = new SessionSettings( new FileInputStream( fixConfigFile ) );
 
 			MessageStoreFactory storeFactory = new FileStoreFactory( sessionSettings );
@@ -65,8 +74,9 @@ public class SimpleFixClient extends BanzaiApplication {
 
 			Thread.sleep( 6000 );
 
-			ScriptEngineManager factory = new ScriptEngineManager();
-			ScriptEngine engine = factory.getEngineByName( "groovy" );
+			
+			
+			loadDSLDefinitions();
 
 			for ( SessionID sessionId : initiator.getSessions() ) {
 				LOGGER.info( sessionId.toString() );
@@ -96,8 +106,8 @@ public class SimpleFixClient extends BanzaiApplication {
 
 						LOGGER.info( "executing script for " + qualifier );
 
-						engine.setBindings( bindings, ScriptContext.ENGINE_SCOPE );
-						engine.eval( fileReader );
+						_groovyEngine.setBindings( bindings, ScriptContext.ENGINE_SCOPE );
+						_groovyEngine.eval( fileReader );
 					} finally {
 						fileReader.close();
 						_session.logout();
@@ -105,7 +115,6 @@ public class SimpleFixClient extends BanzaiApplication {
 
 				} else {
 					LOGGER.info( "Session is not logged on" );
-
 				}
 
 			}
@@ -121,6 +130,7 @@ public class SimpleFixClient extends BanzaiApplication {
 				initiator.stop();
 		}
 	}
+
 
 	private static String validate( String[] args ) {
 		String rv = "simplefixclient.cfg";
@@ -140,6 +150,12 @@ public class SimpleFixClient extends BanzaiApplication {
 	public void fromApp( Message message, SessionID sessionID ) throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, UnsupportedMessageType {
 		// LOGGER.info( message.toString().replaceAll( "", "; " ) );
 		_connection.addResponse( message );
+	}
+
+	private static void loadDSLDefinitions() throws IOException, ScriptException {
+		LOGGER.info( "reading definitions from " + DEFINITIONS_FILE );
+		List<String> l = Files.readAllLines( Paths.get( DEFINITIONS_FILE ) );
+		_groovyEngine.eval( String.join( "\n", l ) );
 	}
 
 }

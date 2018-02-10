@@ -19,8 +19,10 @@
 				<include>NOTICE*</include>
 				<include>start.bat</include>
 				<include>start.sh</include>
-				<include>simplefixclient.cfg</include>
 				<include>scenarios/</include>
+				<include>definitions.dsl</include>
+				<include>simplefixclient.cfg</include>
+				
 			</includes>
 		</fileSet>
 		
