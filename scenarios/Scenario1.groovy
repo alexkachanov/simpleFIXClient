@@ -8,8 +8,7 @@ for(x in 1..2) {
 	connection.send nos, qty: x, price: 0, tif: 'GTC', ordType: 'Market'
 	sleep 2.seconds
 	connection.expect ack
-	//connection.expect fill
-             
+	connection.expect fill
 }
 
 
