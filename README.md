@@ -1,9 +1,11 @@
 # Simple FIX Client
-Simple FIX client (simplefixclient.jar) that can be used to sent FIX messages to any FIX server. 
+## Description
+Simple FIX Client (simplefixclient.jar) that can be used to send FIX messages to any FIX server. 
 
-Messages are controlled using Domain Specific Language (based on Groovy) in scenarios.
+Messages are controlled by scenarious using Domain Specific Language (based on Groovy).
 
-FIX communication is based on QuickFix/J open source library.
+FIX protocol communication is based on QuickFIX/J open source library.
+
 
 ## Requirements and dependencies
 Simple FIX Client requires Java 8. It is a Maven project (see pom.xml file) and depends on QuickFIX/J library ver. 2.0.0.
