@@ -1,6 +1,6 @@
 # Simple FIX Client
 ## Description
-Simple FIX Client (simplefixclient.jar) that can be used to send FIX messages to any FIX server. 
+Simple FIX Client (simplefixclient.jar) is a Java application that can be used to send predefined FIX messages to any FIX server. 
 
 Messages are controlled by scenarious using Domain Specific Language (based on Groovy).
 
