@@ -12,7 +12,6 @@ import static com.kachanov.simplefixclient.model.MessageF.rejected;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -98,7 +97,7 @@ public class Connection {
 		char ordStatus = arrivedMessage.getChar( OrdStatus.FIELD );
 
 		boolean rv = false;
-		if (arrivedMessage.getHeader().getString( MsgType.FIELD ).equals( MsgType.EXECUTION_REPORT )) throw new Exception();
+		if (!arrivedMessage.getHeader().getString( MsgType.FIELD ).equals( MsgType.EXECUTION_REPORT )) throw new Exception();
 
 		for ( MessageF element : Arrays.asList( ack, fill, pfill, amended, canceled, rejected ) ) {
 			if (ordStatus == element.getOrdStatus() && expectedMessage == element) {
@@ -163,7 +162,7 @@ public class Connection {
 			}
 		}
 
-		message.setField( new TransactTime( new Date() ) );
+		message.setField( new TransactTime() );
 
 		LOGGER.info( message.toString().replaceAll( "", "; " ) );
 		Session.sendToTarget( message, _session.getSessionID() );
