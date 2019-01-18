@@ -55,7 +55,7 @@ public class SimpleFixClient extends BanzaiApplication {
 	}
 
 	public static void main( String[] args ) throws InterruptedException, IOException {
-		LOGGER.info( "Starting up..." );
+		LOGGER.info( "Starting up ..." );
 		
 		String fixConfigFile = validate( args );
 
@@ -128,8 +128,12 @@ public class SimpleFixClient extends BanzaiApplication {
 		} catch (ScriptException e) {
 			e.printStackTrace();
 		} finally {
-			if (initiator != null)
+			if (initiator != null) {
 				initiator.stop();
+			}
+		
+			LOGGER.info( "Finished ..." );
+				
 		}
 	}
 
@@ -147,7 +151,12 @@ public class SimpleFixClient extends BanzaiApplication {
 	@Override
 	public void fromApp( Message message, SessionID sessionID ) throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, UnsupportedMessageType {
 		// LOGGER.info( message.toString().replaceAll( "", "; " ) );
-		_connection.addResponse( message );
+		if (_connection == null) {
+			// connection instance is not yet initialized but counterparty is alreayd sending messages to us
+			LOGGER.info( "connection is not yet initialized" );
+		} else {
+			_connection.addResponse( message );
+		}
 	}
 
 	private static void loadDSLDefinitions() throws IOException, ScriptException {
