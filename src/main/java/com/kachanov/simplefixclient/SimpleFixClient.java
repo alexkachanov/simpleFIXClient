@@ -50,7 +50,9 @@ public class SimpleFixClient extends BanzaiApplication {
 	private static Connection _connection = null;
 	private static ScriptEngine _groovyEngine = null;
 	
-	
+	public SimpleFixClient( OrderTableModel orderTableModel, ExecutionTableModel executionTableModel ) {
+		super( orderTableModel, executionTableModel );
+	}
 
 	public static void main( String[] args ) throws InterruptedException, IOException {
 		LOGGER.info( "Starting up..." );
@@ -142,10 +144,6 @@ public class SimpleFixClient extends BanzaiApplication {
 		return rv;
 	}
 
-	public SimpleFixClient( OrderTableModel orderTableModel, ExecutionTableModel executionTableModel ) {
-		super( orderTableModel, executionTableModel );
-	}
-	
 	@Override
 	public void fromApp( Message message, SessionID sessionID ) throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, UnsupportedMessageType {
 		// LOGGER.info( message.toString().replaceAll( "", "; " ) );
