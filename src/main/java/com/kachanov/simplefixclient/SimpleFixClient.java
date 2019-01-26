@@ -91,11 +91,9 @@ public class SimpleFixClient extends BanzaiApplication {
 				if (_session.isLoggedOn()) {
 
 					String qualifier = sessionId.getSessionQualifier();
-					File file = new File( "scenarios/" + qualifier + ".groovy" );
-					FileReader fileReader = new FileReader( file );
-
-					try {
-
+					File scenarioFile = new File( "scenarios/" + qualifier + ".groovy" );
+					
+					try (FileReader fileReader = new FileReader( scenarioFile )) {
 						LOGGER.info( "Session is logged on" );
 
 						Thread.sleep( 5_000 );
@@ -110,8 +108,8 @@ public class SimpleFixClient extends BanzaiApplication {
 
 						_groovyEngine.setBindings( bindings, ScriptContext.ENGINE_SCOPE );
 						_groovyEngine.eval( fileReader );
+					
 					} finally {
-						fileReader.close();
 						_session.logout();
 					}
 

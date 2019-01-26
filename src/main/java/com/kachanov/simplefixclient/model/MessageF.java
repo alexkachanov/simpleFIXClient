@@ -87,7 +87,7 @@ public enum MessageF implements Validator {
 		return rv;
 	}
 
-	private boolean isReject( Message arrivedMessage ) throws FieldNotFound {
+	private static boolean isReject( Message arrivedMessage ) throws FieldNotFound {
 		return arrivedMessage.getChar( OrdStatus.FIELD ) == OrdStatus.REJECTED;
 	}
 }
