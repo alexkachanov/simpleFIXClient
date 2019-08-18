@@ -31,7 +31,7 @@ Start the application using:
 
 <code>jar -jar target/simplefixclient-&lt;version&gt;.jar simplefixclient.cfg</code>
 
-or use <code>mvn spring-boot:run<code> command
+or use <code>mvn spring-boot:run</code> command
 
 or use <code>start.bat</code> or <code>start.sh</code> script.
 
