@@ -7,11 +7,14 @@ Messages are controlled by scenarios using Domain Specific Language (based on Gr
 FIX protocol functionality is based on <a href="https://www.quickfixj.org/">QuickFIX/J open source library</a>.
 
 ## Requirements and Dependencies
-Simple FIX Client requires Java 8. It is a Maven project (see pom.xml file) and depends on
+Simple FIX Client requires Java 8 (can also run on Java 11 LTS or latest Java 12). 
+
+It is a Maven project (see pom.xml, file Apache Maven 3.6.1 is recommended) and depends on:
 * Spring 5.1.9 https://spring.io/projects/spring-framework
 * Spring Boot 2.1.7 https://spring.io/projects/spring-boot
 * QuickFIX/J 2.1.1 https://github.com/quickfix-j/quickfixj 
 * Groovy 1.8.9
+
 All dependencies are downloaded from Internet when you run <code>mvn clean install</code>.
 
 ## Building
