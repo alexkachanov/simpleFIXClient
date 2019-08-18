@@ -1,1 +1,1 @@
-$JAVA_HOME/bin/java -showversion -Xms1800m -Xmx1800m -XX:MaxPermSize=2g -jar target/simplefixclient-2.0.jar simplefixclient.cfg
+$JAVA_HOME/bin/java -showversion -Xms1800m -Xmx1800m -XX:MaxMetaspaceSize=2g -jar target/simplefixclient-2.0.jar simplefixclient.cfg
