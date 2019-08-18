@@ -8,9 +8,9 @@ FIX protocol functionality is based on <a href="https://www.quickfixj.org/">Quic
 
 ## Requirements and Dependencies
 Simple FIX Client requires Java 8. It is a Maven project (see pom.xml file) and depends on
-* Spring 5.1.4
-* Spring Boot 2.1.2
-* QuickFIX/J 2.0.0 
+* Spring 5.1.9 https://spring.io/projects/spring-framework
+* Spring Boot 2.1.7 https://spring.io/projects/spring-boot
+* QuickFIX/J 2.1.1 https://github.com/quickfix-j/quickfixj 
 * Groovy 1.8.9
 All dependencies are downloaded from Internet when you run <code>mvn clean install</code>.
 
