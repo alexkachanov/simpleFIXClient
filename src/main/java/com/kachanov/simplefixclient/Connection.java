@@ -35,9 +35,9 @@ import quickfix.StringField;
 import quickfix.field.Account;
 import quickfix.field.ClOrdID;
 import quickfix.field.ExDestination;
+import quickfix.field.HandlInst;
 import quickfix.field.MsgType;
 import quickfix.field.OrdStatus;
-import quickfix.field.OrderCapacity;
 import quickfix.field.OrderQty;
 import quickfix.field.OrigClOrdID;
 import quickfix.field.Price;
@@ -52,7 +52,7 @@ public class Connection {
 	private static final String tag11 = "tag11";
 	private static final String tag41 = "tag41";
 
-	private Map _context = new HashMap();
+	private Map _context = new HashMap<>();
 	private Map<String, LinkedBlockingQueue<Message>> _responses = new HashMap<String, LinkedBlockingQueue<Message>>();
 	private quickfix.Session _session;
 	
@@ -60,8 +60,6 @@ public class Connection {
 	public Connection( quickfix.Session session ) {
 		this._session = session;
 	}
-	
-	
 	
 	public void addResponse( Message message ) throws FieldNotFound {
 		String clorderid = message.getString( ClOrdID.FIELD );
@@ -152,7 +150,6 @@ public class Connection {
 		message.setField( new StringField( Symbol.FIELD, String.valueOf( _context.get( "symbol" ) ) ));
 		message.setField( new StringField( SecurityType.FIELD, String.valueOf( _context.get( "secType" ) ) ));
 		message.setField( new StringField( ExDestination.FIELD, String.valueOf( _context.get( "exDest" ) ) ));
-		message.setField( new StringField( OrderCapacity.FIELD, String.valueOf( _context.get( "ordCapacity" ) ) ));
 		message.setField( new StringField( Account.FIELD, String.valueOf( _context.get( "account" ) ) ));
 		
 		// ...... exchange specific and custom tags

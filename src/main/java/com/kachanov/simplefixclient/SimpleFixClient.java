@@ -42,22 +42,39 @@ import quickfix.examples.banzai.OrderTableModel;
 
 public class SimpleFixClient extends BanzaiApplication {
 	private static final Logger LOGGER = LoggerFactory.getLogger( SimpleFixClient.class );
-	
+
 	private static final String DEFINITIONS_FILE = "definitions.dsl";
 	private static final String GROOVY_ENGINE_NAME = "groovy";
+	private static final String CONFIG_FILE_NAME = "simplefixclient.cfg";
 
 	private static Session _session = null;
 	private static Connection _connection = null;
 	private static ScriptEngine _groovyEngine = null;
-	
+
 	public SimpleFixClient( OrderTableModel orderTableModel, ExecutionTableModel executionTableModel ) {
 		super( orderTableModel, executionTableModel );
 	}
 
 	public static void main( String[] args ) throws InterruptedException, IOException {
 		LOGGER.info( "Starting up ..." );
+
+		if (!Paths.get( CONFIG_FILE_NAME ).toFile().exists()) {
+			LOGGER.error( "config file does not exist: " + CONFIG_FILE_NAME );
+			return;
+		}
+
+		if (args == null || args.length > 1) {
+			LOGGER.error( "only one parameter is allowed: script name" );
+			return;
+		}
+
+		String scriptName = args[0].trim();
+		if (scriptName.isEmpty()) {
+			LOGGER.error( "script name is not valid" );
+			return;
+		}
 		
-		String fixConfigFile = validate( args );
+		LOGGER.info( "script name: "  + scriptName);
 
 		SimpleFixClient app = new SimpleFixClient( new OrderTableModel(), new ExecutionTableModel() );
 		SessionSettings sessionSettings = null;
@@ -65,8 +82,8 @@ public class SimpleFixClient extends BanzaiApplication {
 		try {
 			ScriptEngineManager factory = new ScriptEngineManager();
 			_groovyEngine = factory.getEngineByName( GROOVY_ENGINE_NAME );
-			
-			sessionSettings = new SessionSettings( new FileInputStream( fixConfigFile ) );
+
+			sessionSettings = new SessionSettings( new FileInputStream( CONFIG_FILE_NAME ) );
 
 			MessageStoreFactory storeFactory = new FileStoreFactory( sessionSettings );
 			FileLogFactory logFactory = new FileLogFactory( sessionSettings );
@@ -76,23 +93,31 @@ public class SimpleFixClient extends BanzaiApplication {
 
 			Thread.sleep( 6000 );
 
-			
-			
 			loadDSLDefinitions();
 
+			LOGGER.info( "searching for session declaration "+scriptName + " in config file " + CONFIG_FILE_NAME );
 			for ( SessionID sessionId : initiator.getSessions() ) {
-				LOGGER.info( sessionId.toString() );
+				
+				String qualifier = sessionId.getSessionQualifier();
+				
+				if (!scriptName.equals( qualifier )) {
+					continue;
+				}
+
+				LOGGER.info( "found: " + sessionId.toString() + " in config file " + CONFIG_FILE_NAME );
+				
 				_session = Session.lookupSession( sessionId );
 				_session.setRejectInvalidMessage( false );
 
 				_connection = new Connection( _session );
+				
+				LOGGER.info( "Session tries to log on" );
 				_session.logon();
 
 				if (_session.isLoggedOn()) {
 
-					String qualifier = sessionId.getSessionQualifier();
 					File scenarioFile = new File( "scenarios/" + qualifier + ".groovy" );
-					
+
 					try (FileReader fileReader = new FileReader( scenarioFile )) {
 						LOGGER.info( "Session is logged on" );
 
@@ -108,15 +133,14 @@ public class SimpleFixClient extends BanzaiApplication {
 
 						_groovyEngine.setBindings( bindings, ScriptContext.ENGINE_SCOPE );
 						_groovyEngine.eval( fileReader );
-					
+
 					} finally {
 						_session.logout();
 					}
 
 				} else {
-					LOGGER.info( "Session is not logged on" );
+					LOGGER.info( "Session was not able to logged on" );
 				}
-
 			}
 
 		} catch (FileNotFoundException e) {
@@ -129,28 +153,18 @@ public class SimpleFixClient extends BanzaiApplication {
 			if (initiator != null) {
 				initiator.stop();
 			}
-		
+
 			LOGGER.info( "Finished ..." );
-				
-		}
-	}
 
-
-	private static String validate( String[] args ) {
-		String rv = "simplefixclient.cfg";
-		if (args.length > 1) {
-			throw new IllegalArgumentException( "only 1 parameter is allowed: name of fix config file" );
-		} else {
-			if (args.length != 0) rv = args[0].trim();
 		}
-		return rv;
 	}
 
 	@Override
 	public void fromApp( Message message, SessionID sessionID ) throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, UnsupportedMessageType {
 		// LOGGER.info( message.toString().replaceAll( "", "; " ) );
 		if (_connection == null) {
-			// connection instance is not yet initialized but counterparty is alreayd sending messages to us
+			// connection instance is not yet initialized but counterparty is
+			// already sending messages to us
 			LOGGER.info( "connection is not yet initialized" );
 		} else {
 			_connection.addResponse( message );

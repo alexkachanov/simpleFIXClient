@@ -1,10 +1,12 @@
+// FIX 4.2 specification
 // these are default values of main tags of FIX messages sent by SimpleFIXClient 
 
 connection.defaults symbol: 'IBM', secType: 'FUT' 
 connection.defaults side: 'Buy'
 connection.defaults exDest:'CME'
-connection.defaults ordCapacity:'A'
 connection.defaults account:'12345'
+connection.defaults tag21:1
+connection.defaults tag58:'testMessage'
 
 // sends two NOSes, waits 2 seconds after each for an ACK and Fill and then disconnects
 for(x in 1..2) {

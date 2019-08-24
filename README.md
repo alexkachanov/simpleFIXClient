@@ -29,7 +29,7 @@ This JAR file is a Spring Boot jumbo-JAR that contains all dependencies required
 ## Running
 Start the application using:
 
-<code>jar -jar target/simplefixclient-&lt;version&gt;.jar simplefixclient.cfg</code>
+<code>jar -jar target/simplefixclient-&lt;version&gt;.jar Scenario1</code>
 
 or use <code>mvn spring-boot:run</code> command
 
@@ -41,7 +41,7 @@ Before opening project in Eclipse, run <code>mvn eclipse:eclipse</code> task in 
 To run project in Eclipse, use Maven task <code>spring-boot:run</code>. 
 
 ## Testing
-For testing you can use <a href="https://www.quickfixj.org/usermanual/2.0.0/usage/examples.html">quickfixj-examples-executor application</a> that is distributed as a part of QuickFIX/J distribution package.
+For testing you can use <a href="https://www.quickfixj.org/usermanual/2.1.0/usage/examples.html">quickfixj-examples-executor application</a> that is distributed as a part of QuickFIX/J distribution package.
 
 Simple FIX Client will use FIX 4.2 protocol and will try to access port 9878 at localhost (see. simplefixclient.cfg).
 
