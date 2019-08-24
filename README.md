@@ -43,7 +43,7 @@ To run project in Eclipse, use Maven task <code>spring-boot:run</code>.
 ## Testing
 For testing you can use <a href="https://www.quickfixj.org/usermanual/2.1.0/usage/examples.html">quickfixj-examples-executor application</a> that is distributed as a part of QuickFIX/J distribution package. 
 
-Or <a href="https://github.com/alexkachanov/simpleFIXExecutor">simpleFIXExecutor</a> can be used which is basically a Spring Boot wrapper around quickfixj-examples-executor application. 
+Or <a href="https://github.com/alexkachanov/simpleFIXExecutor">Simple FIX Executor</a> can be used which is basically a Spring Boot wrapper around quickfixj-examples-executor application. 
 
 Simple FIX Client will use FIX 4.2 protocol and will try to access port 9878 at localhost (see. simplefixclient.cfg).
 
