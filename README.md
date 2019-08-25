@@ -1,10 +1,15 @@
 # Simple FIX Client
 ## Description
-Simple FIX Client (simplefixclient.jar) is a Spring Boot Java application that can be used to send predefined FIX messages to any FIX server. 
+**Simple FIX Client** (<code>simplefixclient.jar</code>) is a Spring Boot Java application that can be used to send predefined FIX messages to any FIX server. 
 
 Messages are controlled by scenarios using Domain Specific Language (based on Groovy).
 
 FIX protocol functionality is based on <a href="https://www.quickfixj.org/">QuickFIX/J open source library</a>.
+
+## Warnings and Notices
+This project is **not supposed** to be used for any real trading or any money sensitive production activity. 
+
+It is recommended solely as a testing tool to test and validate your FIX applications on QA/UAT environment and learn how FIX Protocol is working.
 
 ## Requirements and Dependencies
 Simple FIX Client requires Java 8 (can also run on Java 11 LTS or latest Java 12). 
