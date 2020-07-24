@@ -17,7 +17,7 @@ Simple FIX Client requires Java 11 LTS or latest Java 14.
 It is a Maven project (see pom.xml, file Apache Maven 3.6.3 is recommended) and depends on:
 * Spring 5.2.7.RELEASE https://spring.io/projects/spring-framework
 * Spring Boot 2.3.1.RELEASE https://spring.io/projects/spring-boot
-* QuickFIX/J 2.1.1 https://github.com/quickfix-j/quickfixj
+* QuickFIX/J 2.2.0 https://github.com/quickfix-j/quickfixj
 * Groovy 1.8.9
 
 All dependencies are downloaded from Internet when you run <code>mvn clean install</code>.
