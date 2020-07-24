@@ -35,7 +35,6 @@ import quickfix.StringField;
 import quickfix.field.Account;
 import quickfix.field.ClOrdID;
 import quickfix.field.ExDestination;
-import quickfix.field.HandlInst;
 import quickfix.field.MsgType;
 import quickfix.field.OrdStatus;
 import quickfix.field.OrderQty;
