@@ -1,1 +1,1 @@
-%JAVA_HOME%\bin\java -showversion -Xms1800m -Xmx1800m -XX:MaxMetaspaceSize=2g -jar target/simplefixclient-2.0.jar Scenario1
+%JAVA_HOME%\bin\java -showversion --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.lang.reflect=ALL-UNNAMED -Xms1800m -Xmx1800m -XX:MaxMetaspaceSize=2g -jar target/simplefixclient-2.0.jar Scenario1
