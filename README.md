@@ -38,7 +38,7 @@ Start the application using:
 
 or use <code>mvn spring-boot:run</code> command
 
-or use <code>start.bat</code> or <code>start.sh</code> script.
+or use <code>startClient.bat</code> or <code>startClient.sh</code> script.
 
 ## Eclipse
 Before opening project in Eclipse, run <code>mvn eclipse:eclipse</code> task in the project's folder. Maven will create Eclipse specific project files. Then import the project into your workspace as a Maven project.
