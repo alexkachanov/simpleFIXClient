@@ -147,7 +147,6 @@ public class Connection {
 		message.setField( new StringField( Price.FIELD, String.valueOf( _context.get( "price" ) ) ));
 		
 		message.setField( new StringField( Symbol.FIELD, String.valueOf( _context.get( "symbol" ) ) ));
-		message.setField( new StringField( SecurityType.FIELD, String.valueOf( _context.get( "secType" ) ) ));
 		message.setField( new StringField( ExDestination.FIELD, String.valueOf( _context.get( "exDest" ) ) ));
 		message.setField( new StringField( Account.FIELD, String.valueOf( _context.get( "account" ) ) ));
 		
