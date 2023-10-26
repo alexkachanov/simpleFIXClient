@@ -83,7 +83,7 @@ public class Connection {
 	}
 	
 	void expect( Map<?, ?> m, MessageF expectedMessage ) throws Exception {
-		LOGGER.info( "\nreceiving " + expectedMessage );
+		LOGGER.info( "\nwaiting for " + expectedMessage );
 
 		String clorderid = (String) m.get( tag11 );
 		if (clorderid == null) clorderid = (String) _context.get( tag11 );
@@ -102,7 +102,7 @@ public class Connection {
 			}
 		}
 
-		if (!rv) throw new Exception( "message " + expectedMessage + " is not valid" );
+		if (!rv) throw new Exception( "received message is either not valid or it is not " + expectedMessage + " that was expected");
 	}
 	
 	void send( MessageF messageType ) throws SessionNotFound {
@@ -110,18 +110,21 @@ public class Connection {
 	}
 
 	void send( Map<?, ?> m, MessageF messageType ) throws SessionNotFound {
-		LOGGER.info( "\nsending " + messageType +
-				": symbol: "+m.get( "symbol" )+
-				": secType: "+m.get( "secType" )+
-				"; side: "+m.get( "side" )+
-				"; ordType: "+m.get( "ordType" )+
-				"; tif: "+m.get( "tif" )+
-				"; qty: "+m.get( "qty" )+
-				"; price: " + m.get( "price" )
-				
-				);
 		
 		_context.putAll( m );
+		
+		LOGGER.info( 
+				"\n============================================================================================"
+				+ "\nsending " + messageType +
+				": symbol: "+_context.get( "symbol" )+
+				": secType: "+_context.get( "secType" )+
+				"; side: "+_context.get( "side" )+
+				"; ordType: "+_context.get( "ordType" )+
+				"; tif: "+_context.get( "tif" )+
+				"; qty: "+_context.get( "qty" )+
+				"; price: " + _context.get( "price" )+
+				"\n==========================="
+				);
 		
 		Message message = new Message();
 		message.getHeader().setField( new StringField( messageType.getField(), messageType.getValue() ) );
