@@ -32,13 +32,13 @@ Resulting simplefixclient-&lt;version&gt;.jar JAR file will be created in <code>
 This JAR file is a Spring Boot jumbo-JAR that contains all dependencies required to run the application.
 
 ## Running
-Start the application using:
+Start the application with Scenario1 as command line parameter using:
 
 <code>jar -jar target/simplefixclient-&lt;version&gt;.jar Scenario1</code>
 
-or use <code>mvn spring-boot:run</code> command
+or use <code>mvn spring-boot:run</code> command with Scenario1 as a parameter
 
-or use <code>startClient.bat</code> or <code>startClient.sh</code> script.
+or use <code>startClient.bat</code> or <code>startClient.sh</code> script (Scenario1 is set there).
 
 ## Eclipse
 Before opening project in Eclipse, run <code>mvn eclipse:eclipse</code> task in the project's folder. Maven will create Eclipse specific project files. Then import the project into your workspace as a Maven project.
