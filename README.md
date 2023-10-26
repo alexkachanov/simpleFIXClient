@@ -32,6 +32,10 @@ Resulting simplefixclient-&lt;version&gt;.jar JAR file will be created in <code>
 This JAR file is a Spring Boot jumbo-JAR that contains all dependencies required to run the application.
 
 ## Running
+Sample Groovy DSL scenario "Scenario1.groovy" is located in <code>scenarios</code> sub-folder. 
+
+You can pass any scenario as a startup parameter (without .groovy extension).
+
 Start the application with Scenario1 as command line parameter using:
 
 <code>java -jar target/simplefixclient-&lt;version&gt;.jar Scenario1</code>
@@ -52,6 +56,3 @@ Or <a href="https://github.com/alexkachanov/simpleFIXExecutor">Simple FIX Execut
 
 Simple FIX Client will use FIX 4.2 protocol and will try to access port 9878 at localhost (see. simplefixclient.cfg).
 
-Sample Groovy DSL scenario "Scenario1.groovy" is located in <code>scenarios</code> sub-folder. 
-
-You can pass any scenario as a startup parameter (without .groovy extension).
