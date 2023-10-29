@@ -40,7 +40,6 @@ import quickfix.field.OrdStatus;
 import quickfix.field.OrderQty;
 import quickfix.field.OrigClOrdID;
 import quickfix.field.Price;
-import quickfix.field.SecurityType;
 import quickfix.field.Symbol;
 import quickfix.field.TransactTime;
 
@@ -141,7 +140,8 @@ public class Connection {
 			_context.put( tag41, clorderid );
 			_responses.put( clorderid, new LinkedBlockingQueue<Message>() );
 		}
-		
+
+		// ...... minimal collection of tags supported
 		message.setField( new CharField( OrdTypeF.getField(), 	OrdTypeF.valueOf( String.valueOf( _context.get( "ordType" ) ) ).getValue() ));
 		message.setField( new CharField( TimeInForceF.getField(), TimeInForceF.valueOf( String.valueOf( _context.get( "tif" ) ) ).getValue() ) );
 		message.setField( new CharField( SideF.getField(), 		SideF.valueOf( String.valueOf( _context.get( "side" ) ) ).getValue() ) );

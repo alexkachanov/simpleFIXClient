@@ -46,7 +46,7 @@ public enum MessageF implements Validator {
 		_value = value;
 	}
 
-	private MessageF( String value, char orderStatus ) {
+	private MessageF( final String value, final char orderStatus ) {
 		_value = value;
 		_ordStatus = orderStatus;
 	}
@@ -64,7 +64,7 @@ public enum MessageF implements Validator {
 	}
 
 	@Override
-	public boolean validate( Map<?, ?> m, Message arrivedMessage ) throws FieldNotFound, Exception {
+	public boolean validate( final Map<?, ?> m, Message arrivedMessage ) throws FieldNotFound, Exception {
 		if (isReject( arrivedMessage )) {
 			LOGGER.info( "expected smth but received reject" );
 			throw new Exception();
@@ -74,8 +74,8 @@ public enum MessageF implements Validator {
 		boolean rv = true;
 		for ( Entry<?, ?> entry : m.entrySet() ) {
 			LOGGER.debug( "entry.getKey(): " + entry.getKey() );
-			String key = (String) entry.getKey();
-			String value = (String) entry.getValue();
+			final String key = (String) entry.getKey();
+			final String value = (String) entry.getValue();
 			switch (key) {
 				case "side": 	rv = SideF.valueOf( value ).validate(arrivedMessage); break;
 				case "tif": 	rv = TimeInForceF.valueOf( value ).validate(arrivedMessage); break;
@@ -87,7 +87,7 @@ public enum MessageF implements Validator {
 		return rv;
 	}
 
-	private static boolean isReject( Message arrivedMessage ) throws FieldNotFound {
+	private static boolean isReject( final Message arrivedMessage ) throws FieldNotFound {
 		return arrivedMessage.getChar( OrdStatus.FIELD ) == OrdStatus.REJECTED;
 	}
 }

@@ -7,6 +7,9 @@ import quickfix.FieldNotFound;
 import quickfix.Message;
 import quickfix.field.OrdType;
 
+/**
+ * Enumeration of supported values of OrdType tag40
+ */
 public enum OrdTypeF {
 	  Market(MARKET) 
 	, Limit(LIMIT)
@@ -37,7 +40,7 @@ public enum OrdTypeF {
 		return OrdType.FIELD;
 	}
 
-	public boolean validate( Message arrivedMessage ) throws FieldNotFound {
+	public boolean validate( final Message arrivedMessage ) throws FieldNotFound {
 		return arrivedMessage.getChar( getField() ) == getValue();
 	}
 

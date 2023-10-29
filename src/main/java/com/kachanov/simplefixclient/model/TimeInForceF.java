@@ -13,15 +13,18 @@ import quickfix.FieldNotFound;
 import quickfix.Message;
 import quickfix.field.TimeInForce;
 
+/**
+ * Enumeration of supported TimeInForce tag59
+ */
 public enum TimeInForceF {
-	  Day		 (DAY)
-	, GTC		 (GOOD_TILL_CANCEL)
-	, FOK		 (FILL_OR_KILL)
-	, IOC		 (IMMEDIATE_OR_CANCEL)
-	, GTD		 (GOOD_TILL_DATE)
-	, GTCROSSING (GOOD_TILL_CROSSING)
-	, ATOPENING	 (AT_THE_OPENING)
-	, ATCLOSE	 (AT_THE_CLOSE)
+	  Day		   (DAY)
+	, GTC		   (GOOD_TILL_CANCEL)
+	, AtTheOpening (AT_THE_OPENING)
+	, IOC		   (IMMEDIATE_OR_CANCEL)
+	, FOK		   (FILL_OR_KILL)
+	, GoodTillCrossing (GOOD_TILL_CROSSING)
+	, GTD		   (GOOD_TILL_DATE)
+	, AtTheClose   (AT_THE_CLOSE)
 	;
 	
 	private char _value;
