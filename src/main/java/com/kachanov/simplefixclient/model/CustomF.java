@@ -14,7 +14,8 @@ import quickfix.field.SecurityType;
 import quickfix.field.SenderLocationID;
 
 /** 
- * Enumeration of custom FIX Protocol fields. The tags can be either supported by FIX Protocol or your Custom tags.
+ * Enumeration of custom FIX Protocol fields. 
+ * The tags can be either supported by FIX Protocol or your Custom tags.
  */
 public enum CustomF {
 

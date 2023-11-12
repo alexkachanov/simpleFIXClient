@@ -76,20 +76,19 @@ public class SimpleFixClient extends BanzaiApplication {
 		
 		LOGGER.info( "script name: "  + scriptName);
 
-		SimpleFixClient app = new SimpleFixClient( new OrderTableModel(), new ExecutionTableModel() );
-		SessionSettings sessionSettings = null;
+		final SimpleFixClient app = new SimpleFixClient(new OrderTableModel(), new ExecutionTableModel());
 		SocketInitiator initiator = null;
 		try {
-			ScriptEngineManager factory = new ScriptEngineManager();
-			_groovyEngine = factory.getEngineByName( GROOVY_ENGINE_NAME );
-
-			sessionSettings = new SessionSettings( new FileInputStream( CONFIG_FILE_NAME ) );
+			SessionSettings sessionSettings = new SessionSettings( new FileInputStream( CONFIG_FILE_NAME ) );
 
 			MessageStoreFactory storeFactory = new FileStoreFactory( sessionSettings );
 			FileLogFactory logFactory = new FileLogFactory( sessionSettings );
 			MessageFactory messageFactory = new DefaultMessageFactory();
 			initiator = new SocketInitiator( app, storeFactory, sessionSettings, logFactory, messageFactory );
 			initiator.start();
+			
+			final ScriptEngineManager factory = new ScriptEngineManager();
+			_groovyEngine = factory.getEngineByName( GROOVY_ENGINE_NAME );
 
 			Thread.sleep( 6000 );
 
@@ -116,14 +115,14 @@ public class SimpleFixClient extends BanzaiApplication {
 
 				if (_session.isLoggedOn()) {
 
-					File scenarioFile = new File( "scenarios/" + qualifier + ".groovy" );
+					final File scenarioFile = new File( "scenarios/" + qualifier + ".groovy" );
 
-					try (FileReader fileReader = new FileReader( scenarioFile )) {
+					try (final FileReader fileReader = new FileReader( scenarioFile )) {
 						LOGGER.info( "Session is logged on" );
 
 						Thread.sleep( 5_000 );
 
-						Bindings bindings = new SimpleBindings();
+						final Bindings bindings = new SimpleBindings();
 						bindings.put( "connection", _connection );
 						for ( MessageF msgType : MessageF.values() ) {
 							bindings.put( msgType.name(), msgType );
@@ -160,7 +159,7 @@ public class SimpleFixClient extends BanzaiApplication {
 	}
 
 	@Override
-	public void fromApp( Message message, SessionID sessionID ) throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, UnsupportedMessageType {
+	public void fromApp( final Message message, final SessionID sessionID ) throws FieldNotFound, IncorrectDataFormat, IncorrectTagValue, UnsupportedMessageType {
 		// LOGGER.info( message.toString().replaceAll( "", "; " ) );
 		if (_connection == null) {
 			// connection instance is not yet initialized but counterparty is
@@ -173,8 +172,8 @@ public class SimpleFixClient extends BanzaiApplication {
 
 	private static void loadDSLDefinitions() throws IOException, ScriptException {
 		LOGGER.info( "reading definitions from " + DEFINITIONS_FILE );
-		List<String> l = Files.readAllLines( Paths.get( DEFINITIONS_FILE ) );
-		_groovyEngine.eval( String.join( "\n", l ) );
+		final List<String> lines = Files.readAllLines( Paths.get( DEFINITIONS_FILE ) );
+		_groovyEngine.eval( String.join( "\n", lines ) );
 	}
 
 }

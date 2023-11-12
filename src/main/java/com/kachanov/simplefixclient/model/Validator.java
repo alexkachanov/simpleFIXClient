@@ -6,5 +6,5 @@ import quickfix.FieldNotFound;
 import quickfix.Message;
 
 public interface Validator {
-	boolean validate( Map<?, ?> m, Message arrivedMessage ) throws FieldNotFound, Exception;
+	boolean validate( final Map<?, ?> m, final Message arrivedMessage ) throws FieldNotFound, Exception;
 }

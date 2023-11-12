@@ -56,46 +56,44 @@ public class Connection {
 	
 
 	public Connection( quickfix.Session session ) {
-		this._session = session;
+		_session = session;
 	}
 	
 	public void addResponse( Message message ) throws FieldNotFound {
-		String clorderid = message.getString( ClOrdID.FIELD );
-		LinkedBlockingQueue<Message> queue = _responses.get( clorderid );
-		if (queue == null) {
-			queue = new LinkedBlockingQueue<Message>();
-			_responses.put( clorderid, queue );
-		}
-		queue.add( message );
+		final String clorderid = message.getString(ClOrdID.FIELD);
+		final LinkedBlockingQueue<Message> queue = _responses.getOrDefault(clorderid, new LinkedBlockingQueue<Message>());
+		_responses.put(clorderid, queue);
+		queue.add(message);
 	}
 	
 	public void reset(){
 		_responses.clear();
 	}
 	
-	public void defaults(Map<?,?> m) {
+	/** puts defaults into context */
+	public void defaults(final Map<?,?> m) {
 		_context.putAll( m );
 	}
 
-	void expect( MessageF expectedOrdStatus ) throws Exception {
+	public void expect( final MessageF expectedOrdStatus ) throws Exception {
 		expect(Collections.EMPTY_MAP, expectedOrdStatus);
 	}
 	
-	void expect( Map<?, ?> m, MessageF expectedMessage ) throws Exception {
+	public void expect( final Map<?, ?> m, final MessageF expectedMessage ) throws Exception {
 		LOGGER.info( "\nwaiting for " + expectedMessage );
 
 		String clorderid = (String) m.get( tag11 );
 		if (clorderid == null) clorderid = (String) _context.get( tag11 );
 
-		Message arrivedMessage = _responses.get( clorderid ).poll( 20, TimeUnit.SECONDS );
+		final Message arrivedMessage = _responses.get( clorderid ).poll( 20, TimeUnit.SECONDS );
 		LOGGER.info( arrivedMessage.toString().replaceAll( "", "; " ) );
 
-		char ordStatus = arrivedMessage.getChar( OrdStatus.FIELD );
+		final char ordStatus = arrivedMessage.getChar( OrdStatus.FIELD );
 
 		boolean rv = false;
 		if (!arrivedMessage.getHeader().getString( MsgType.FIELD ).equals( MsgType.EXECUTION_REPORT )) throw new Exception();
 
-		for ( MessageF element : Arrays.asList( ack, fill, pfill, amended, canceled, rejected ) ) {
+		for ( final MessageF element : Arrays.asList( ack, fill, pfill, amended, canceled, rejected ) ) {
 			if (ordStatus == element.getOrdStatus() && expectedMessage == element) {
 				rv = expectedMessage.validate( m, arrivedMessage );
 			}
@@ -104,11 +102,12 @@ public class Connection {
 		if (!rv) throw new Exception( "received message is either not valid or it is not " + expectedMessage + " that was expected");
 	}
 	
-	void send( MessageF messageType ) throws SessionNotFound {
+	public void send( final MessageF messageType ) throws SessionNotFound {
 		send( Collections.EMPTY_MAP, messageType );
 	}
 
-	void send( Map<?, ?> m, MessageF messageType ) throws SessionNotFound {
+	/** sends given message */
+	public void send( final Map<?, ?> m, final MessageF messageType ) throws SessionNotFound {
 		
 		_context.putAll( m );
 		
@@ -125,7 +124,7 @@ public class Connection {
 				"\n==========================="
 				);
 		
-		Message message = new Message();
+		final Message message = new Message();
 		message.getHeader().setField( new StringField( messageType.getField(), messageType.getValue() ) );
 		
 		if (messageType != nos) {
@@ -134,6 +133,7 @@ public class Connection {
 		
 		String clorderid = (String) m.get( tag11 );
 		if (clorderid == null) clorderid = String.valueOf( System.nanoTime() );
+		
 		message.setField( new StringField( ClOrdID.FIELD, clorderid ) );
 		if (messageType == nos || messageType == amend || messageType == cancel) {
 			_context.put( tag11, clorderid );

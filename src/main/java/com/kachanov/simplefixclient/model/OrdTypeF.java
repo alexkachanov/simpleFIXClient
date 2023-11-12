@@ -10,7 +10,7 @@ import quickfix.field.OrdType;
 /**
  * Enumeration of supported values of OrdType tag40
  */
-public enum OrdTypeF {
+public enum OrdTypeF implements ValidatingField {
 	  Market(MARKET) 
 	, Limit(LIMIT)
 	, Stop(STOP_STOP_LOSS)
@@ -40,6 +40,7 @@ public enum OrdTypeF {
 		return OrdType.FIELD;
 	}
 
+	@Override
 	public boolean validate( final Message arrivedMessage ) throws FieldNotFound {
 		return arrivedMessage.getChar( getField() ) == getValue();
 	}

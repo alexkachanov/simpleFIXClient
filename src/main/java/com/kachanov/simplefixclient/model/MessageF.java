@@ -64,14 +64,16 @@ public enum MessageF implements Validator {
 	}
 
 	@Override
-	public boolean validate( final Map<?, ?> m, Message arrivedMessage ) throws FieldNotFound, Exception {
+	public boolean validate( final Map<?, ?> m, final Message arrivedMessage ) throws FieldNotFound, Exception {
 		if (isReject( arrivedMessage )) {
 			LOGGER.info( "expected smth but received reject" );
 			throw new Exception();
 		}
 
 		if (arrivedMessage.getChar( OrdStatus.FIELD ) != getOrdStatus()) throw new Exception();
+		
 		boolean rv = true;
+		
 		for ( Entry<?, ?> entry : m.entrySet() ) {
 			LOGGER.debug( "entry.getKey(): " + entry.getKey() );
 			final String key = (String) entry.getKey();

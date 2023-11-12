@@ -10,7 +10,7 @@ import quickfix.field.Side;
 /**
  * Enumeration of supported Side tag54 
  */
-public enum SideF {
+public enum SideF implements ValidatingField {
 	  Buy(BUY)
 	, Sell(SELL)
 	, BuyMinus (BUY_MINUS)
@@ -37,7 +37,8 @@ public enum SideF {
 		return _value;
 	}
 
-	public boolean validate( Message arrivedMessage ) throws FieldNotFound {
+	@Override
+	public boolean validate( final Message arrivedMessage ) throws FieldNotFound {
 		return arrivedMessage.getChar( getField() ) == getValue();
 	}
 }

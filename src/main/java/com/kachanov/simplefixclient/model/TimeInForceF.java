@@ -16,7 +16,7 @@ import quickfix.field.TimeInForce;
 /**
  * Enumeration of supported TimeInForce tag59
  */
-public enum TimeInForceF {
+public enum TimeInForceF implements ValidatingField {
 	  Day		   (DAY)
 	, GTC		   (GOOD_TILL_CANCEL)
 	, AtTheOpening (AT_THE_OPENING)
@@ -41,7 +41,8 @@ public enum TimeInForceF {
 		return _value;
 	}
 
-	public boolean validate( Message arrivedMessage ) throws FieldNotFound {
+	@Override
+	public boolean validate( final Message arrivedMessage ) throws FieldNotFound {
 		return arrivedMessage.getChar( getField() ) == getValue();
 	}
 }
