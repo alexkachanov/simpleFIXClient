@@ -123,7 +123,11 @@ public class SimpleFixClient extends BanzaiApplication {
 						Thread.sleep( 5_000 );
 
 						final Bindings bindings = new SimpleBindings();
+						
+						// binds Connection object to word "connection" in scenarios  
 						bindings.put( "connection", _connection );
+						
+						// binds each messageType to the name of that messageType
 						for ( MessageF msgType : MessageF.values() ) {
 							bindings.put( msgType.name(), msgType );
 						}

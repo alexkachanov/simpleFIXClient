@@ -23,18 +23,23 @@ import quickfix.field.MsgType;
 import quickfix.field.OrdStatus;
 import quickfix.field.Text;
 
+/** enumeration of message types (tag35) supported by FIX Protocol. 
+ * Each enumeration that corresponds to an execution report type is linked to 
+ * the value of tag 35=8 and corresponding expected status of the order */
 public enum MessageF implements Validator {
 
-	  nos(ORDER_SINGLE)
-	, amend(ORDER_CANCEL_REPLACE_REQUEST)
-	, cancel(ORDER_CANCEL_REQUEST)
+	// types of messages that are sent
+	  nos(		ORDER_SINGLE)
+	, amend(	ORDER_CANCEL_REPLACE_REQUEST)
+	, cancel(	ORDER_CANCEL_REQUEST)
 
-	, ack(EXECUTION_REPORT, NEW)
-	, amended(EXECUTION_REPORT, REPLACED)
-	, canceled(EXECUTION_REPORT, CANCELED)
-	, rejected(EXECUTION_REPORT, REJECTED)
-	, pfill(EXECUTION_REPORT, PARTIALLY_FILLED)
-	, fill(EXECUTION_REPORT, FILLED)
+	// types of messages received in response
+	, ack(		EXECUTION_REPORT, 	NEW)
+	, amended(	EXECUTION_REPORT, 	REPLACED)
+	, canceled(	EXECUTION_REPORT, 	CANCELED)
+	, rejected(	EXECUTION_REPORT, 	REJECTED)
+	, pfill(	EXECUTION_REPORT, 	PARTIALLY_FILLED)
+	, fill(		EXECUTION_REPORT, 	FILLED)
 	;
 
 	private static final Logger LOGGER = LoggerFactory.getLogger( MessageF.class );
