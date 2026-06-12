@@ -12,7 +12,7 @@ This project is **not supposed** to be used for any real trading or any money se
 It is recommended solely as a testing tool to test and validate your FIX applications on QA/UAT environment and learn how FIX Protocol is working.
 
 ## Requirements and Dependencies
-Simple FIX Client requires Java 11 LTS or latest Java 14.
+Simple FIX Client requires Java 17 LTS.
 
 It is a Maven project (see pom.xml, file Apache Maven 3.6.3 is recommended) and depends on:
 * Spring 5.3.25.RELEASE https://spring.io/projects/spring-framework
